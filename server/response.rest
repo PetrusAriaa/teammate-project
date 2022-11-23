@@ -1,0 +1,24 @@
+//get all data
+GET http://localhost:3001/mission-data
+
+//add data
+###
+POST http://localhost:3001/mission-data
+Content-Type: application/json
+
+{
+    "namaMisi": "misi 4",
+    "geoJSON": {"circle":0}
+}
+
+//get data by id
+###
+GET http://localhost:3001/mission-data/5
+
+//delete all data
+###
+DELETE http://localhost:3001/mission-data
+
+//delete data by id
+###
+DELETE http://localhost:3001/mission-data/4
