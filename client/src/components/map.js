@@ -79,8 +79,13 @@ function Map() {
     })
 
     return (
-        <div>
-            <div id='mapid' style={{ height: '93vh' }}></div>
+        <div style={{width:'85%'}}>
+            <div id="mission-title">
+                <p>(Unsaved) Mission Name: Active</p>
+            </div>
+            <div>
+                <div id='mapid' style={{ height: '93vh' }}></div>
+            </div>
         </div>
 
     )
