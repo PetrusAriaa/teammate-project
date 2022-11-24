@@ -17,7 +17,7 @@ function Sidebar({getMissionName}){
 
     return(
         <div id="mission-editor">
-            <p style={{margin:'0', color:'#a0a0a0'}}> Mission Editor </p>
+            <p style={{margin:'0', color:'#a0a0a0', paddingTop:'0.5em'}}> Mission Editor </p>
             
             <div id="sidebar">
                 <AddMission getMisi={getMissionName}/>
