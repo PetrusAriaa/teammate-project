@@ -5,10 +5,10 @@ import L from 'leaflet/dist/leaflet';
 import 'leaflet-draw/dist/leaflet.draw.css';
 import 'leaflet-draw/dist/leaflet.draw';
 
-function Map({missionName}) {
+function Map({missionName},{loadName}) {
     const [namaMisi, setNamaMisi] = useState();
     
-    
+
     useEffect(() =>{
         setNamaMisi(missionName);
     })
@@ -59,7 +59,7 @@ function Map({missionName}) {
         L.control.layers({
             "Street View": osm.addTo(map),
             "Satelite": google
-        }, { 'drawlayer': drawnItems }, { position: 'topright', collapsed: false }).addTo(map);
+        }, { 'drawlayer': drawnItems }, { position: 'bottomleft', collapsed: false }).addTo(map);
 
         var drawControl = new L.Control.Draw({
             draw: {
@@ -84,14 +84,18 @@ function Map({missionName}) {
         }
     })
 
+    const handleSave = ()=>{
+        alert('Saved')
+    }
+
     return (
         <div style={{width:'85%'}}>
             <div id="mission-title">
                 <p>Active Mission: {namaMisi}</p>
-                <button>Save Mission</button>
+                <button onClick={() => handleSave()}>Save Mission</button>
             </div>
             <div>
-                <div id='mapid' style={{ height: '93vh' }}></div>
+                <div id='mapid' style={{ height: '89vh' }}></div>
             </div>
         </div>
 

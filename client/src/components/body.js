@@ -11,11 +11,10 @@ function Body() {
         setNamaMisi(missionName);
     }
 
-
     return (
         <div>
             <div class="body" style={{ display: 'flex' }}>
-                <Sidebar getMissionName={getMissionName} />
+                <Sidebar getMissionName={getMissionName}/>
                 <Map missionName={namaMisi}/>
             </div>
         </div>
