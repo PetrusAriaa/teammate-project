@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import Map from './components/map';
+import Body from './components/body';
 import Header from './components/header';
 import reportWebVitals from './reportWebVitals';
 
@@ -9,7 +9,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Header />
-    <Map />
+    <Body />
   </React.StrictMode>
 );
 
