@@ -1,6 +1,6 @@
 import './style.css';
 import React, {useEffect, useState} from 'react';
-
+import AddMission from './items/addMission';
 function Sidebar(){
     
     return(
@@ -8,8 +8,9 @@ function Sidebar(){
             <p> Mission Editor </p>
             
             <div id="sidebar">
-                <p>Mission List</p>
+                <AddMission />
                 <div id="mission-list">
+                    <p>Mission List</p>
                     <ul>
                         <li>Mission 1</li>
                         <li>Mission 2</li>
