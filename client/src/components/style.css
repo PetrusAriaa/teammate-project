@@ -1,0 +1,22 @@
+#header {
+    text-align: center;
+    background-color: #535353;
+    color: rgb(227, 227, 227);
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    height: 1.4em;
+    border-bottom: #383838 solid 2px;
+    padding: 4pt;
+}
+
+#header img {
+    height: 25px;
+    margin-left: 6px;
+}
+
+#header h2{
+    font-size: 1em;
+    font-weight: 400;
+    margin-left: 3px;
+}
