@@ -4,10 +4,11 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet/dist/leaflet';
 import 'leaflet-draw/dist/leaflet.draw.css';
 import 'leaflet-draw/dist/leaflet.draw';
+import axios from 'axios';
 
-function Map({missionName},{loadName}) {
+function Map({missionName}) {
     const [namaMisi, setNamaMisi] = useState();
-    
+    const [geoData, setGeoData] = useState();
 
     useEffect(() =>{
         setNamaMisi(missionName);
@@ -76,22 +77,32 @@ function Map({missionName},{loadName}) {
 
         map.on('draw:created', e => {
             drawnItems.addLayer(e.layer);
+            setGeoData(e.layer.toGeoJSON());
         })
 
         return () => {
             map.off()
             map.remove()
         }
-    })
+    }, [namaMisi])
 
-    const handleSave = ()=>{
-        alert('Saved')
+    const handleSave = async () =>{
+        alert(namaMisi + " saved successfully")
+        window.location.reload(false);
+        try {
+            await axios.post("http://localhost:3001/mission-data", {
+                namaMisi: namaMisi,
+                geoJSON: JSON.stringify(geoData)
+            });
+        }catch (err){
+            console.error(err)
+        }
     }
 
     return (
         <div style={{width:'85%'}}>
             <div id="mission-title">
-                <p>Active Mission: {namaMisi}</p>
+                <p>Active Mission: <a style={{color:'aquamarine'}}>{namaMisi}</a></p>
                 <button onClick={() => handleSave()}>Save Mission</button>
             </div>
             <div>

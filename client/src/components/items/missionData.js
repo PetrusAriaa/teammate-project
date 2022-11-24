@@ -4,12 +4,13 @@ import '../style.css';
 function MissionData(data) {
 
     const handleDelete = () =>{
-        alert('Delete');
     }
-
+    
     const handleLoad = () =>{
-        var nama = data.data[0].namaMisi;
-        data.data[1](nama);
+        var name = data.data[0].namaMisi;
+        data.data[1](name);
+        var json = JSON.parse(data.data[0].geoJSON);
+        console.log(json);
     }
 
     return (

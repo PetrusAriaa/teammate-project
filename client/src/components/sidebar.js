@@ -3,9 +3,8 @@ import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import AddMission from './items/addMission';
 import MissionData from './items/missionData'; 
-function Sidebar({getMissionName, getLoadMission}){
+function Sidebar({getMissionName}){
     const [data, setData] = useState([]);
-    const [missionName, setNamaMisi] = useState();
 
     useEffect(() =>{
         getData();
