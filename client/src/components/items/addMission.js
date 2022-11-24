@@ -2,15 +2,16 @@
 import React, {useEffect, useState} from 'react';
 import '../style.css';
 
-function AddMission(){
+function AddMission({getMisi}){
 
     const handleClick = () =>{
-        alert('button clicked');
+        var misi = prompt('Mission Name: ');
+        getMisi(misi)
     }
 
     return(
         <div>
-            <button id="btnAdd" onClick={() => handleClick()}>Create New Mission</button>
+            <button id="btnAdd" onClick={() => handleClick()} title="Add New Mission">Create New Mission</button>
         </div>
     )
 }

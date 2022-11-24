@@ -3,7 +3,7 @@ import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import AddMission from './items/addMission';
 import MissionData from './items/missionData'; 
-function Sidebar(){
+function Sidebar({getMissionName}){
     const [data, setData] = useState([]);
 
     useEffect(() =>{
@@ -20,7 +20,7 @@ function Sidebar(){
             <p style={{margin:'0', color:'#a0a0a0'}}> Mission Editor </p>
             
             <div id="sidebar">
-                <AddMission />
+                <AddMission getMisi={getMissionName}/>
                 <div id="mission-list">
                     <p>Mission List</p>
                     {

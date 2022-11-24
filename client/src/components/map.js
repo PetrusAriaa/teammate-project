@@ -5,7 +5,7 @@ import L from 'leaflet/dist/leaflet';
 import 'leaflet-draw/dist/leaflet.draw.css';
 import 'leaflet-draw/dist/leaflet.draw';
 
-function Map() {
+function Map({missionName}) {
 
     useEffect(() => {
         const GSP_coord = [-7.770121424862446, 110.37784742786181];
@@ -81,7 +81,7 @@ function Map() {
     return (
         <div style={{width:'85%'}}>
             <div id="mission-title">
-                <p>(Unsaved) Mission Name: Active</p>
+                <p>Active Mission: {missionName}</p>
             </div>
             <div>
                 <div id='mapid' style={{ height: '93vh' }}></div>
