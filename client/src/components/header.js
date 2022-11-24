@@ -8,6 +8,5 @@ function Header() {
             <h2> Gamaforce </h2>
         </div>
     )
-
 }
 export default Header;
