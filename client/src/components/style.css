@@ -50,6 +50,20 @@
     margin-top: 1em;
 }
 
+#mission-title {
+    margin: 0;
+    padding: 0 0 0 1em;
+    background-color: #424242;
+    border-top: #2a2a2a solid 1.5pt;
+    font-size: 0.75em;
+    font-weight: 400;
+    color: #a0a0a0;
+}
+
+#mission-title p {
+    margin: 0;
+}
+
 #btnAdd {
     font-size: 0.75em;
     background-color: transparent;

@@ -1,21 +1,33 @@
 import './style.css';
+import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import AddMission from './items/addMission';
+import MissionData from './items/missionData'; 
 function Sidebar(){
-    
+    const [data, setData] = useState([]);
+
+    useEffect(() =>{
+        getData();
+    }, []);
+
+    const getData = async () =>{
+        const response = await axios.get("http://localhost:3001/mission-data");
+        setData(response.data);
+    }
+
     return(
         <div id="mission-editor">
-            <p> Mission Editor </p>
+            <p style={{margin:'0', color:'#a0a0a0'}}> Mission Editor </p>
             
             <div id="sidebar">
                 <AddMission />
                 <div id="mission-list">
                     <p>Mission List</p>
-                    <ul>
-                        <li>Mission 1</li>
-                        <li>Mission 2</li>
-                        <li>Mission 3</li>
-                    </ul>
+                    {
+                        data.map(mission_data => {
+                            return <MissionData data={mission_data} />
+                        })
+                    }
                 </div>
             </div>
         </div>
