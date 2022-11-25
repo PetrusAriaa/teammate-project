@@ -68,7 +68,10 @@ function Map({missionData}) {
         if(geoJSON == null){
             console.log("null json file")
         } else {
-            var building_layer = new L.geoJSON(geoJSON);
+            var building_layer = new L.geoJSON(geoJSON, {
+                style:  () => {
+                    return { color: 'yellow' };
+                }});
 
             building_layer.eachLayer(function (layer) {
                 drawnItems.addLayer(layer);
