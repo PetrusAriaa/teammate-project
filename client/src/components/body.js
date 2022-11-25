@@ -12,6 +12,10 @@ function Body() {
 
     const getNewStatement = (e) =>{
         setIsNew(e)
+        if(e == true){
+            setMissionId(null)
+            setJsonData(null)
+        }
     }
     const getJsonData = (data) => {
         var json = JSON.parse(data.geoJSON)

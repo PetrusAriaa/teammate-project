@@ -9,20 +9,19 @@ import axios from 'axios';
 function Map({missionData}) {
     const [namaMisi, setNamaMisi] = useState();
     const [geoData, setGeoData] = useState();
-    const [isSaved, setIsSaved] = useState(false);
+    const [isSaved, setIsSaved] = useState(true);
     const [geoJSON, setGeoJSON] = useState();
     const [isNew, setIsNew] = useState();
     const [id, setId]= useState()
-    const [layers, setlayers] = useState();
     
     useEffect(()=>{
         setNamaMisi(missionData[0]);
         setId(missionData[1]);
         setGeoJSON(missionData[2]);
         setIsNew(missionData[3]);
+        if(isNew) setIsSaved(false);
     })
-
-
+    
     useEffect(() => {
         const GSP_coord = [-7.770121424862446, 110.37784742786181];
 
@@ -58,63 +57,76 @@ function Map({missionData}) {
             title: 'Grha Sabha Pramana',
             bubblingMouseEvents: true
         }).bindTooltip("Grha Sabha Pramana").openTooltip();
-
+        
         markUGM.addTo(map)
         markUGM.on('click', function (e) {
             map.flyTo([e.latlng.lat, e.latlng.lng], 18);
         })
 
-        var drawnItems = new L.FeatureGroup();
+        var drawnItems = new L.FeatureGroup().addTo(map);
+        
+        if(geoJSON == null){
+            console.log("null json file")
+        } else {
+            var building_layer = new L.geoJSON(geoJSON);
+
+            building_layer.eachLayer(function (layer) {
+                drawnItems.addLayer(layer);
+                console.log(drawnItems)
+            });
+            console.log(drawnItems)
+            setGeoData(drawnItems.toGeoJSON());
+            console.log(geoData)
+        }
 
         L.control.layers({
             "Street View": osm.addTo(map),
             "Satelite": google
-        }, { 'drawlayer': drawnItems }, { position: 'bottomleft', collapsed: false }).addTo(map);
+        }, {'drawlayer': drawnItems}, {position:'topright', collapsed: false}).addTo(map);
 
         var drawControl = new L.Control.Draw({
             draw: {
                 polygon: {
                     allowIntersection: false,
                     showArea: true
-                }
+                },
+                circle: false,
+                circlemarker: false
             },
             edit: {
-                featureGroup: drawnItems
+                featureGroup: drawnItems,
+                edit: true
             }
         });
         map.addControl(drawControl);
 
         map.on('draw:created', e => {
             drawnItems.addLayer(e.layer);
-            console.log(e.layer)
-        })
-
-        map.on('draw:drawstop', () => {
             setGeoData(drawnItems.toGeoJSON());
+            setIsSaved(false);
         })
-
-        map.on('edit:editstop', ()=>{
-            setGeoData(drawnItems.toGeoJSON());
-        })
-
-        var staticLayer = new L.FeatureGroup();
-        var json = L.geoJSON(geoJSON)
-        staticLayer.addLayer(json)
         
-
+        map.on('draw:edited', ()=>{
+            setGeoData(drawnItems.toGeoJSON());
+            setIsSaved(false);
+        })
+        
+        map.on('draw:deleted', ()=>{
+            setGeoData(drawnItems.toGeoJSON());
+            setIsSaved(false);
+        })
+        
         return () => {
             map.off()
             map.remove()
         }
     }, [namaMisi, id])
 
-    const handleSave = async (check) =>{
+    const handleSave = async () =>{
         if(namaMisi === undefined){
             alert("Sir, no currently active mission detected!");
         } else {
             if(isNew == true){
-                alert('this is new mission');
-                setIsSaved(true)
                 alert(namaMisi + " saved successfully")
                 try{
                     await axios.post("http://localhost:3001/mission-data", {
@@ -124,10 +136,11 @@ function Map({missionData}) {
                 }catch (err){
                     console.error(err)
                 }
+                window.location.reload()
             }
             else{
-                alert("is notnew")
                 try{
+                    setIsSaved(true)
                     await axios.patch("http://localhost:3001/mission-data/" + id, {
                         namaMisi: namaMisi,
                         geoJSON: JSON.stringify(geoData)
@@ -142,7 +155,8 @@ function Map({missionData}) {
     return (
         <div style={{width:'85%'}}>
             <div id="mission-title">
-                <button onClick={() => handleSave(false)}>Save Mission</button>
+                <button onClick={() => {handleSave()
+                }}>Save Mission</button>
                 {(isSaved == true) ? <p>Active Mission: <a style={{ color: 'aquamarine' }}>{namaMisi}</a></p>
                 : <p>Active Mission: <a style={{ color: 'red' }}>{namaMisi}</a></p>}
             </div>

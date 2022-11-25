@@ -92,6 +92,20 @@
     background-color: #5f5f5f;
 }
 
+#delete-all{
+    background: transparent;
+    border:none;
+    height: max-content;
+    align-self: center;
+    border-radius: 2pt;
+    padding-top: 1pt;
+    opacity: 0.5;
+}
+
+#delete-all:hover{
+    background-color: #424242;
+    opacity: 1;
+}
 #btnAdd {
     font-size: 0.9em;
     background-color: transparent;
