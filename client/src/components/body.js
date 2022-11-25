@@ -7,19 +7,27 @@ function Body() {
     
     const [jsonData, setJsonData] = useState()
     const [missionName, setMissionName] = useState()
+    const [missionId, setMissionId] = useState()
+    const [isNew, setIsNew] =useState(false)
 
-    const getJsonData = (data) => {
-        setJsonData(data);
+    const getNewStatement = (e) =>{
+        setIsNew(e)
     }
-
+    const getJsonData = (data) => {
+        var json = JSON.parse(data.geoJSON)
+        setJsonData(json);
+        var id = data.id;
+        setMissionId(id);
+    }
+    
     const getMissionName = (name) =>{
         setMissionName(name);
     }
     return (
         <div>
             <div class="body" style={{ display: 'flex' }}>
-                <Sidebar getMissionName={getMissionName}/>
-                <Map missionName={missionName}/>
+                <Sidebar mission={[getMissionName, getJsonData, getNewStatement]}/>
+                <Map missionData={[missionName, missionId, jsonData, isNew]}/>
             </div>
         </div>
     )

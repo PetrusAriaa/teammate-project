@@ -6,7 +6,8 @@ function AddMission({getMisi}){
 
     const handleClick = () =>{
         var misi = prompt('Mission Name: ');
-        getMisi(misi)
+        getMisi[0](misi)
+        getMisi[1](true)
     }
 
     return(

@@ -61,7 +61,18 @@ app.delete("/mission-data/", (req, res)=>{
 })
 
 //modify data by id
+app.patch("/mission-data/:id", (req, res)=>{
+    data.all("SELECT id FROM mission WHERE id = ?", [req.params.id], (err, rows) => {
+        if (rows[0] == null) return res.status(404).json("DATA NOT FOUND :/");
 
+        else {
+            data.run("UPDATE mission SET namaMisi = ?, geoJSON = ? WHERE id = ?", [req.body.namaMisi, req.body.geoJSON, req.params.id], (err) => {
+                if (err) res.status(404).json(err);
+                res.status(200).json("update success");
+            })
+        }
+    })
+})
 
 app.listen(3001, ()=>{
     console.log('Server up and running on http://localhost:3001 ...')

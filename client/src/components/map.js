@@ -6,13 +6,22 @@ import 'leaflet-draw/dist/leaflet.draw.css';
 import 'leaflet-draw/dist/leaflet.draw';
 import axios from 'axios';
 
-function Map({missionName}) {
+function Map({missionData}) {
     const [namaMisi, setNamaMisi] = useState();
     const [geoData, setGeoData] = useState();
-
-    useEffect(() =>{
-        setNamaMisi(missionName);
+    const [isSaved, setIsSaved] = useState(false);
+    const [geoJSON, setGeoJSON] = useState();
+    const [isNew, setIsNew] = useState();
+    const [id, setId]= useState()
+    const [layers, setlayers] = useState();
+    
+    useEffect(()=>{
+        setNamaMisi(missionData[0]);
+        setId(missionData[1]);
+        setGeoJSON(missionData[2]);
+        setIsNew(missionData[3]);
     })
+
 
     useEffect(() => {
         const GSP_coord = [-7.770121424862446, 110.37784742786181];
@@ -41,7 +50,7 @@ function Map({missionName}) {
         var map = L.map('mapid', {
             center: GSP_coord,
             zoom: 18,
-            minZoom: 5
+            minZoom: 5,
         })
 
         const markUGM = L.marker(GSP_coord, {
@@ -77,33 +86,65 @@ function Map({missionName}) {
 
         map.on('draw:created', e => {
             drawnItems.addLayer(e.layer);
-            setGeoData(e.layer.toGeoJSON());
+            console.log(e.layer)
         })
+
+        map.on('draw:drawstop', () => {
+            setGeoData(drawnItems.toGeoJSON());
+        })
+
+        map.on('edit:editstop', ()=>{
+            setGeoData(drawnItems.toGeoJSON());
+        })
+
+        var staticLayer = new L.FeatureGroup();
+        var json = L.geoJSON(geoJSON)
+        staticLayer.addLayer(json)
+        
 
         return () => {
             map.off()
             map.remove()
         }
-    }, [namaMisi])
+    }, [namaMisi, id])
 
-    const handleSave = async () =>{
-        alert(namaMisi + " saved successfully")
-        window.location.reload(false);
-        try {
-            await axios.post("http://localhost:3001/mission-data", {
-                namaMisi: namaMisi,
-                geoJSON: JSON.stringify(geoData)
-            });
-        }catch (err){
-            console.error(err)
+    const handleSave = async (check) =>{
+        if(namaMisi === undefined){
+            alert("Sir, no currently active mission detected!");
+        } else {
+            if(isNew == true){
+                alert('this is new mission');
+                setIsSaved(true)
+                alert(namaMisi + " saved successfully")
+                try{
+                    await axios.post("http://localhost:3001/mission-data", {
+                        namaMisi: namaMisi,
+                        geoJSON: JSON.stringify(geoData)
+                    });
+                }catch (err){
+                    console.error(err)
+                }
+            }
+            else{
+                alert("is notnew")
+                try{
+                    await axios.patch("http://localhost:3001/mission-data/" + id, {
+                        namaMisi: namaMisi,
+                        geoJSON: JSON.stringify(geoData)
+                    })
+                } catch (err){
+                    console.error(err)
+                }
+            }
         }
     }
-
+    
     return (
         <div style={{width:'85%'}}>
             <div id="mission-title">
-                <p>Active Mission: <a style={{color:'aquamarine'}}>{namaMisi}</a></p>
-                <button onClick={() => handleSave()}>Save Mission</button>
+                <button onClick={() => handleSave(false)}>Save Mission</button>
+                {(isSaved == true) ? <p>Active Mission: <a style={{ color: 'aquamarine' }}>{namaMisi}</a></p>
+                : <p>Active Mission: <a style={{ color: 'red' }}>{namaMisi}</a></p>}
             </div>
             <div>
                 <div id='mapid' style={{ height: '89vh' }}></div>

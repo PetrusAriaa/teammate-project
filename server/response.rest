@@ -22,3 +22,12 @@ DELETE http://localhost:3001/mission-data
 //delete data by id
 ###
 DELETE http://localhost:3001/mission-data/4
+
+###
+PATCH http://localhost:3001/mission-data/1
+Content-Type: application/json
+
+{
+    "namaMisi": "misi 10",
+    "geoJSON": null
+}
