@@ -48,7 +48,7 @@ function Map({missionData}) {
 
         var map = L.map('mapid', {
             center: GSP_coord,
-            zoom: 18,
+            zoom: 13,
             minZoom: 5,
         })
 
@@ -77,9 +77,8 @@ function Map({missionData}) {
                 drawnItems.addLayer(layer);
                 console.log(drawnItems)
             });
-            console.log(drawnItems)
             setGeoData(drawnItems.toGeoJSON());
-            console.log(geoData)
+            //* fly to added geojson layer
         }
 
         L.control.layers({
@@ -119,6 +118,7 @@ function Map({missionData}) {
             setIsSaved(false);
         })
         
+        setGeoData(drawnItems.toGeoJSON())
         return () => {
             map.off()
             map.remove()

@@ -27,6 +27,7 @@ function Body() {
     const getMissionName = (name) =>{
         setMissionName(name);
     }
+
     return (
         <div>
             <div class="body" style={{ display: 'flex' }}>

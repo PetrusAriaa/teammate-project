@@ -134,3 +134,22 @@
 #mission-data #buttons button:hover{
     opacity: 1;
 }
+
+#nama-misi button{
+    background: transparent;
+    border: none;
+}
+
+#mission-data #nama-misi button{
+    display: none;
+}
+
+#mission-data:hover > #nama-misi button{
+    display: inline;
+    opacity: 0.5;
+}
+
+#mission-data:hover > #nama-misi button:hover{
+    display: inline;
+    opacity: 1;
+}
