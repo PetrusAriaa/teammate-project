@@ -33,7 +33,8 @@ function MissionData(data) {
             setNamaMisi(newName)
             try {
                 await axios.patch("http://localhost:3001/mission-data/" + data.data[0].id, {
-                    namaMisi: newName
+                    namaMisi: newName,
+                    geoJSON: data.data[0].geoJSON
                 })
             }catch (err) {
                 console.error(err);
