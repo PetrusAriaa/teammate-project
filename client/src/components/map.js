@@ -48,7 +48,7 @@ function Map({missionData}) {
 
         var map = L.map('mapid', {
             center: GSP_coord,
-            zoom: 13,
+            zoom: 17,
             minZoom: 5,
         })
 
